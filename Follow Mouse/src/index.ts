@@ -32,8 +32,19 @@ BABYLON.SceneLoader.ImportMesh("", "../assets/", "boot.babylon", scene, (meshes)
     // Move the sphere upward 1/2 its height
     sphere.position.y = 2;
 
-    var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(70, 70, 0), scene); 
+    var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(70, 70, 70), scene); 
+    camera.mode = BABYLON.Camera.ORTHOGRAPHIC_CAMERA;
+
+    var distance = 100;	
+	var aspect = scene.getEngine().getRenderingCanvasClientRect().height / scene.getEngine().getRenderingCanvasClientRect().width; 
+	
+	camera.orthoLeft = -distance/2;
+	camera.orthoRight = distance / 2;
+	camera.orthoBottom = camera.orthoLeft * aspect;
+    camera.orthoTop = camera.orthoRight * aspect;
+    
     camera.setTarget(new BABYLON.Vector3(0,0,0));
+
 
     // Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
     var ground = BABYLON.Mesh.CreateGround("ground1", 60, 60, 2, scene);
@@ -46,7 +57,7 @@ BABYLON.SceneLoader.ImportMesh("", "../assets/", "boot.babylon", scene, (meshes)
     // Render every frame
     engine.runRenderLoop(() => {
         scene.render();
-        camera.position = new BABYLON.Vector3(70 + sphere.position.x, 70, 0 + sphere.position.z);
+        camera.position = new BABYLON.Vector3(70 + sphere.position.x, 70, 70 + sphere.position.z);
         console.log(sphere.position.x,sphere.position.z);
         if(sphere.rotation.y != desiredrotation){
             if(sphere.rotation.y > desiredrotation){
