@@ -74,7 +74,7 @@ BABYLON.SceneLoader.ImportMesh(null, "../assets/", "ship-PLACEHOLDER-v7 (canon a
 
     // InputBlock
     var WaveSpeed = new BABYLON.InputBlock("WaveSpeed");
-    WaveSpeed.value = 0.8;
+    WaveSpeed.value = 1.46;
     WaveSpeed.min = 0;
     WaveSpeed.max = 0;
     WaveSpeed.isBoolean = false;
@@ -88,7 +88,7 @@ BABYLON.SceneLoader.ImportMesh(null, "../assets/", "ship-PLACEHOLDER-v7 (canon a
 
     // InputBlock
     var waveLength = new BABYLON.InputBlock("waveLength");
-    waveLength.value = 0.8;
+    waveLength.value = 1.36;
     waveLength.min = 0;
     waveLength.max = 0;
     waveLength.isBoolean = false;
@@ -99,7 +99,7 @@ BABYLON.SceneLoader.ImportMesh(null, "../assets/", "ship-PLACEHOLDER-v7 (canon a
 
     // InputBlock
     var WaveHeight = new BABYLON.InputBlock("WaveHeight");
-    WaveHeight.value = 0.18;
+    WaveHeight.value = 1.18;
     WaveHeight.min = 0;
     WaveHeight.max = 0;
     WaveHeight.isBoolean = false;
@@ -131,9 +131,7 @@ BABYLON.SceneLoader.ImportMesh(null, "../assets/", "ship-PLACEHOLDER-v7 (canon a
 
     // InputBlock
     var color = new BABYLON.InputBlock("color");
-    color.value = new BABYLON.Color4(0.2901960784313726, 0.5647058823529412, 0.8862745098039215, 1);
-    color.isConstant = false;
-    color.visibleInInspector = false;
+    color.setAsAttribute("color");
 
     // FragmentOutputBlock
     var FragmentOutput = new BABYLON.FragmentOutputBlock("FragmentOutput");
@@ -167,6 +165,7 @@ BABYLON.SceneLoader.ImportMesh(null, "../assets/", "ship-PLACEHOLDER-v7 (canon a
     nodeMaterial.addOutputNode(VertexOutput);
     nodeMaterial.addOutputNode(FragmentOutput);
     nodeMaterial.build();
+
     // #endregion
 
     //let sphere = BABYLON.Mesh.MergeMeshes(meshes as Mesh[]);
@@ -187,25 +186,26 @@ BABYLON.SceneLoader.ImportMesh(null, "../assets/", "ship-PLACEHOLDER-v7 (canon a
     camera.orthoTop = camera.orthoRight * aspect;
 
     camera.setTarget(new BABYLON.Vector3(0, 0, 0));
-
+    var light = new BABYLON.HemisphericLight("HemiLight", new BABYLON.Vector3(0, 1, 0), scene);
     // #region createGround
-    var createGround = function (name, size, subdivisions, color, scene) {
-        var ground = new BABYLON.Mesh(name, scene);
-        var hsqrt3 = 0.86602540378;
-        var tileSize = size / subdivisions;
-        var halfTileSize = tileSize / 2;
-        var halfTileSizeHsqrt3 = halfTileSize * hsqrt3;
-        var flip = false;
-        var positions = [];
-        var normals = [];
-        var colors = [];
-        var indices = [];
-        var tint;
-        var tileCount = 0;
-        for (var z = -subdivisions / 2; z < subdivisions / 2; z++) {
-            for (var x = -subdivisions; x < subdivisions; x++) {
-                var posX = x * halfTileSize;
-                var posZ = z * tileSize * hsqrt3;
+    let colors: BABYLON.FloatArray;
+    let createGround = function (name, size, subdivisions, color, scene) {
+        let ground = new BABYLON.Mesh(name, scene);
+        let hsqrt3 = 0.86602540378;
+        let tileSize = size / subdivisions;
+        let halfTileSize = tileSize / 2;
+        let halfTileSizeHsqrt3 = halfTileSize * hsqrt3;
+        let flip = false;
+        let positions = [];
+        let normals = [];
+        colors = [];
+        let indices = [];
+        let tint;
+        let tileCount = 0;
+        for (let z = -subdivisions / 2; z < subdivisions / 2; z++) {
+            for (let x = -subdivisions; x < subdivisions; x++) {
+                let posX = x * halfTileSize;
+                let posZ = z * tileSize * hsqrt3;
 
                 if (!flip) {
                     positions.push(posX + halfTileSize, 0, posZ - halfTileSizeHsqrt3);
@@ -217,13 +217,13 @@ BABYLON.SceneLoader.ImportMesh(null, "../assets/", "ship-PLACEHOLDER-v7 (canon a
                     positions.push(posX + halfTileSize, 0, posZ + halfTileSizeHsqrt3);
                 }
 
-                for (var i = 0; i < 3; i++) normals.push(0, 1, 0);
+                for (let i = 0; i < 3; i++) normals.push(0, 1, 0);
 
-                for (var i = 0; i < 3; i++) indices.push(tileCount + i);
+                for (let i = 0; i < 3; i++) indices.push(tileCount + i);
                 tileCount += 3;
 
-                tint = Math.random() * 0.1;
-                for (var i = 0; i < 3; i++) colors.push(color.r + tint, color.g + tint, color.b + tint, 1);
+                tint = Math.random() * 1;
+                for (let i = 0; i < 3; i++) colors.push(color.r + tint, color.g + tint, color.b + tint, 1);
 
                 flip = !flip;
             }
@@ -238,22 +238,32 @@ BABYLON.SceneLoader.ImportMesh(null, "../assets/", "ship-PLACEHOLDER-v7 (canon a
     // #endregion
 
     // Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
-    var ground = createGround("ground", 60, 32, new BABYLON.Color3(0.4, 0.8, 1), scene);
+    let ground = createGround("ground", 60, 11, new BABYLON.Color3(0.3, 0.79, 1), scene);
 
     // Affect a material
-    //ground.material = nodeMaterial;
+    ground.material = nodeMaterial;
 
 
     let desiredrotation = sphere.rotation.y;
     let desiredposition = sphere.position;
+    let colors2: BABYLON.FloatArray = colors;
     // Render every frame
     engine.runRenderLoop(() => {
+
+        ground.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors2, true);
         scene.render();
         camera.position = new BABYLON.Vector3(70 + sphere.position.x, 70, 70 + sphere.position.z);
 
     });
 
     window.addEventListener("resize", function () {
+        aspect = scene.getEngine().getRenderingCanvasClientRect().height / scene.getEngine().getRenderingCanvasClientRect().width;
+
+        camera.orthoLeft = -distance / 2;
+        camera.orthoRight = distance / 2;
+        camera.orthoBottom = camera.orthoLeft * aspect;
+        camera.orthoTop = camera.orthoRight * aspect;
+
         engine.resize();
         canvas.style.width = "100%";
         canvas.style.height = "100%";
