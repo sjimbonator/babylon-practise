@@ -35,32 +35,32 @@ BABYLON.SceneLoader.ImportMesh(null, "../assets/", "ship-PLACEHOLDER-v7 (canon a
     // InputBlock
     var position = new BABYLON.InputBlock("position");
     position.setAsAttribute("position");
-
+    
     // VectorSplitterBlock
     var VectorSplitter = new BABYLON.VectorSplitterBlock("VectorSplitter");
-
+    
     // VectorMergerBlock
     var VectorMerger = new BABYLON.VectorMergerBlock("VectorMerger");
-
+    
     // MultiplyBlock
     var Multiply = new BABYLON.MultiplyBlock("Multiply");
-
+    
     // TrigonometryBlock
     var Sin = new BABYLON.TrigonometryBlock("Sin");
     Sin.operation = BABYLON.TrigonometryBlockOperations.Sin;
-
+    
     // DivideBlock
     var Divide = new BABYLON.DivideBlock("Divide");
-
-    // AddBlock
-    var Add = new BABYLON.AddBlock("Add");
-
+    
     // SubtractBlock
     var Subtract = new BABYLON.SubtractBlock("Subtract");
-
+    
+    // SimplexPerlin3DBlock
+    var SimplexPerlinD = new BABYLON.SimplexPerlin3DBlock("SimplexPerlin3D");
+    
     // MultiplyBlock
     var Multiply1 = new BABYLON.MultiplyBlock("Multiply");
-
+    
     // InputBlock
     var Time = new BABYLON.InputBlock("Time");
     Time.value = 0;
@@ -71,10 +71,10 @@ BABYLON.SceneLoader.ImportMesh(null, "../assets/", "ship-PLACEHOLDER-v7 (canon a
     Time.animationType = BABYLON.AnimatedInputBlockTypes.Time;
     Time.isConstant = false;
     Time.visibleInInspector = false;
-
+    
     // InputBlock
     var WaveSpeed = new BABYLON.InputBlock("WaveSpeed");
-    WaveSpeed.value = 1.46;
+    WaveSpeed.value = 0.2;
     WaveSpeed.min = 0;
     WaveSpeed.max = 0;
     WaveSpeed.isBoolean = false;
@@ -82,13 +82,10 @@ BABYLON.SceneLoader.ImportMesh(null, "../assets/", "ship-PLACEHOLDER-v7 (canon a
     WaveSpeed.animationType = BABYLON.AnimatedInputBlockTypes.None;
     WaveSpeed.isConstant = false;
     WaveSpeed.visibleInInspector = false;
-
-    // SubtractBlock
-    var Subtract1 = new BABYLON.SubtractBlock("Subtract");
-
+    
     // InputBlock
     var waveLength = new BABYLON.InputBlock("waveLength");
-    waveLength.value = 1.36;
+    waveLength.value = 0.2;
     waveLength.min = 0;
     waveLength.max = 0;
     waveLength.isBoolean = false;
@@ -96,10 +93,10 @@ BABYLON.SceneLoader.ImportMesh(null, "../assets/", "ship-PLACEHOLDER-v7 (canon a
     waveLength.animationType = BABYLON.AnimatedInputBlockTypes.None;
     waveLength.isConstant = false;
     waveLength.visibleInInspector = false;
-
+    
     // InputBlock
     var WaveHeight = new BABYLON.InputBlock("WaveHeight");
-    WaveHeight.value = 1.18;
+    WaveHeight.value = 0.6;
     WaveHeight.min = 0;
     WaveHeight.max = 0;
     WaveHeight.isBoolean = false;
@@ -107,47 +104,44 @@ BABYLON.SceneLoader.ImportMesh(null, "../assets/", "ship-PLACEHOLDER-v7 (canon a
     WaveHeight.animationType = BABYLON.AnimatedInputBlockTypes.None;
     WaveHeight.isConstant = false;
     WaveHeight.visibleInInspector = false;
-
+    
     // TransformBlock
     var WorldPos = new BABYLON.TransformBlock("WorldPos");
     WorldPos.complementZ = 0;
     WorldPos.complementW = 1;
-
+    
     // InputBlock
     var World = new BABYLON.InputBlock("World");
     World.setAsSystemValue(BABYLON.NodeMaterialSystemValues.World);
-
+    
     // TransformBlock
     var WorldPosViewProjectionTransform = new BABYLON.TransformBlock("WorldPos * ViewProjectionTransform");
     WorldPosViewProjectionTransform.complementZ = 0;
     WorldPosViewProjectionTransform.complementW = 1;
-
+    
     // InputBlock
     var ViewProjection = new BABYLON.InputBlock("ViewProjection");
     ViewProjection.setAsSystemValue(BABYLON.NodeMaterialSystemValues.ViewProjection);
-
+    
     // VertexOutputBlock
     var VertexOutput = new BABYLON.VertexOutputBlock("VertexOutput");
-
+    
     // InputBlock
     var color = new BABYLON.InputBlock("color");
     color.setAsAttribute("color");
-
+    
     // FragmentOutputBlock
     var FragmentOutput = new BABYLON.FragmentOutputBlock("FragmentOutput");
-
+    
     // Connections
     position.output.connectTo(VectorSplitter.xyzIn);
     VectorSplitter.x.connectTo(VectorMerger.x);
-    VectorSplitter.x.connectTo(Subtract.left);
+    position.output.connectTo(SimplexPerlinD.seed);
+    SimplexPerlinD.output.connectTo(Subtract.left);
     Time.output.connectTo(Multiply1.left);
     WaveSpeed.output.connectTo(Multiply1.right);
     Multiply1.output.connectTo(Subtract.right);
-    Subtract.output.connectTo(Add.left);
-    VectorSplitter.z.connectTo(Subtract1.left);
-    Multiply1.output.connectTo(Subtract1.right);
-    Subtract1.output.connectTo(Add.right);
-    Add.output.connectTo(Divide.left);
+    Subtract.output.connectTo(Divide.left);
     waveLength.output.connectTo(Divide.right);
     Divide.output.connectTo(Sin.input);
     Sin.output.connectTo(Multiply.left);
@@ -160,11 +154,13 @@ BABYLON.SceneLoader.ImportMesh(null, "../assets/", "ship-PLACEHOLDER-v7 (canon a
     ViewProjection.output.connectTo(WorldPosViewProjectionTransform.transform);
     WorldPosViewProjectionTransform.output.connectTo(VertexOutput.vector);
     color.output.connectTo(FragmentOutput.rgba);
-
+    
     // Output nodes
     nodeMaterial.addOutputNode(VertexOutput);
     nodeMaterial.addOutputNode(FragmentOutput);
     nodeMaterial.build();
+    
+    
 
     // #endregion
 
@@ -222,7 +218,7 @@ BABYLON.SceneLoader.ImportMesh(null, "../assets/", "ship-PLACEHOLDER-v7 (canon a
                 for (let i = 0; i < 3; i++) indices.push(tileCount + i);
                 tileCount += 3;
 
-                tint = Math.random() * 1;
+                tint = Math.random() * 0.1;
                 for (let i = 0; i < 3; i++) colors.push(color.r + tint, color.g + tint, color.b + tint, 1);
 
                 flip = !flip;
