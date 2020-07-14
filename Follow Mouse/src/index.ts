@@ -27,7 +27,7 @@ material.emissiveColor = new BABYLON.Color3(0, 0, 1);
 // Our built-in 'sphere' shape. Params: name, subdivs, size, scene
 //let sphere = BABYLON.Mesh.CreateSphere("sphere1", 16, 2, scene);
 
-BABYLON.SceneLoader.ImportMesh(null, "../assets/", "ship-PLACEHOLDER-v7 (canon animation test).gltf", scene, (meshes, particleSystems, skeletons, animationgroups, ) => {
+BABYLON.SceneLoader.ImportMesh(null, "../assets/", "ship-PLACEHOLDER-v7 (canon animation test).gltf", scene, (meshes, particleSystems, skeletons, animationgroups,) => {
 
     // #region Nodematerial
     var nodeMaterial = new BABYLON.NodeMaterial("node");
@@ -35,32 +35,32 @@ BABYLON.SceneLoader.ImportMesh(null, "../assets/", "ship-PLACEHOLDER-v7 (canon a
     // InputBlock
     var position = new BABYLON.InputBlock("position");
     position.setAsAttribute("position");
-    
+
     // VectorSplitterBlock
     var VectorSplitter = new BABYLON.VectorSplitterBlock("VectorSplitter");
-    
+
     // VectorMergerBlock
     var VectorMerger = new BABYLON.VectorMergerBlock("VectorMerger");
-    
+
     // MultiplyBlock
     var Multiply = new BABYLON.MultiplyBlock("Multiply");
-    
+
     // TrigonometryBlock
     var Sin = new BABYLON.TrigonometryBlock("Sin");
     Sin.operation = BABYLON.TrigonometryBlockOperations.Sin;
-    
+
     // DivideBlock
     var Divide = new BABYLON.DivideBlock("Divide");
-    
+
     // SubtractBlock
     var Subtract = new BABYLON.SubtractBlock("Subtract");
-    
+
     // SimplexPerlin3DBlock
     var SimplexPerlinD = new BABYLON.SimplexPerlin3DBlock("SimplexPerlin3D");
-    
+
     // MultiplyBlock
     var Multiply1 = new BABYLON.MultiplyBlock("Multiply");
-    
+
     // InputBlock
     var Time = new BABYLON.InputBlock("Time");
     Time.value = 0;
@@ -71,10 +71,10 @@ BABYLON.SceneLoader.ImportMesh(null, "../assets/", "ship-PLACEHOLDER-v7 (canon a
     Time.animationType = BABYLON.AnimatedInputBlockTypes.Time;
     Time.isConstant = false;
     Time.visibleInInspector = false;
-    
+
     // InputBlock
     var WaveSpeed = new BABYLON.InputBlock("WaveSpeed");
-    WaveSpeed.value = 0.5;
+    WaveSpeed.value = 0.3;
     WaveSpeed.min = 0;
     WaveSpeed.max = 0;
     WaveSpeed.isBoolean = false;
@@ -82,10 +82,10 @@ BABYLON.SceneLoader.ImportMesh(null, "../assets/", "ship-PLACEHOLDER-v7 (canon a
     WaveSpeed.animationType = BABYLON.AnimatedInputBlockTypes.None;
     WaveSpeed.isConstant = false;
     WaveSpeed.visibleInInspector = false;
-    
+
     // InputBlock
     var waveLength = new BABYLON.InputBlock("waveLength");
-    waveLength.value = 0.5;
+    waveLength.value = 0.3;
     waveLength.min = 0;
     waveLength.max = 0;
     waveLength.isBoolean = false;
@@ -93,10 +93,10 @@ BABYLON.SceneLoader.ImportMesh(null, "../assets/", "ship-PLACEHOLDER-v7 (canon a
     waveLength.animationType = BABYLON.AnimatedInputBlockTypes.None;
     waveLength.isConstant = false;
     waveLength.visibleInInspector = false;
-    
+
     // InputBlock
     var WaveHeight = new BABYLON.InputBlock("WaveHeight");
-    WaveHeight.value = 0.5;
+    WaveHeight.value = 0.8;
     WaveHeight.min = 0;
     WaveHeight.max = 0;
     WaveHeight.isBoolean = false;
@@ -104,49 +104,70 @@ BABYLON.SceneLoader.ImportMesh(null, "../assets/", "ship-PLACEHOLDER-v7 (canon a
     WaveHeight.animationType = BABYLON.AnimatedInputBlockTypes.None;
     WaveHeight.isConstant = false;
     WaveHeight.visibleInInspector = false;
-    
+
     // TransformBlock
     var WorldPos = new BABYLON.TransformBlock("WorldPos");
     WorldPos.complementZ = 0;
     WorldPos.complementW = 1;
-    
+
     // InputBlock
     var World = new BABYLON.InputBlock("World");
     World.setAsSystemValue(BABYLON.NodeMaterialSystemValues.World);
-    
+
+    // TransformBlock
+    var WorldNormal = new BABYLON.TransformBlock("WorldNormal");
+    WorldNormal.complementZ = 0;
+    WorldNormal.complementW = 0;
+
+    // InputBlock
+    var normal = new BABYLON.InputBlock("normal");
+    normal.setAsAttribute("normal");
+
+    // LightBlock
+    var Lights = new BABYLON.LightBlock("Lights");
+
+    // InputBlock
+    var cameraPosition = new BABYLON.InputBlock("cameraPosition");
+    cameraPosition.setAsSystemValue(BABYLON.NodeMaterialSystemValues.CameraPosition);
+
+    // MultiplyBlock
+    var Multiply2 = new BABYLON.MultiplyBlock("Multiply");
+
+    // ColorSplitterBlock
+    var ColorSplitter = new BABYLON.ColorSplitterBlock("ColorSplitter");
+
+    // InputBlock
+    var WaterColor = new BABYLON.InputBlock("WaterColor");
+    WaterColor.value = new BABYLON.Color4(0.2901960784313726, 0.7647058823529412, 0.8862745098039215, 1);
+    WaterColor.isConstant = false;
+    WaterColor.visibleInInspector = false;
+
+    // FragmentOutputBlock
+    var FragmentOutput = new BABYLON.FragmentOutputBlock("FragmentOutput");
+
+    // InputBlock
+    var WaterOpacity = new BABYLON.InputBlock("WaterOpacity");
+    WaterOpacity.value = 0.8;
+    WaterOpacity.min = 0;
+    WaterOpacity.max = 0;
+    WaterOpacity.isBoolean = false;
+    WaterOpacity.matrixMode = 0;
+    WaterOpacity.animationType = BABYLON.AnimatedInputBlockTypes.None;
+    WaterOpacity.isConstant = false;
+    WaterOpacity.visibleInInspector = false;
+
     // TransformBlock
     var WorldPosViewProjectionTransform = new BABYLON.TransformBlock("WorldPos * ViewProjectionTransform");
     WorldPosViewProjectionTransform.complementZ = 0;
     WorldPosViewProjectionTransform.complementW = 1;
-    
+
     // InputBlock
     var ViewProjection = new BABYLON.InputBlock("ViewProjection");
     ViewProjection.setAsSystemValue(BABYLON.NodeMaterialSystemValues.ViewProjection);
-    
+
     // VertexOutputBlock
     var VertexOutput = new BABYLON.VertexOutputBlock("VertexOutput");
-    
-    // InputBlock
-    var color = new BABYLON.InputBlock("color");
-    color.setAsAttribute("color");
-    
-    // ColorSplitterBlock
-    var ColorSplitter = new BABYLON.ColorSplitterBlock("ColorSplitter");
-    
-    // FragmentOutputBlock
-    var FragmentOutput = new BABYLON.FragmentOutputBlock("FragmentOutput");
-    
-    // InputBlock
-    var Float = new BABYLON.InputBlock("Float");
-    Float.value = 0.7;
-    Float.min = 0;
-    Float.max = 0;
-    Float.isBoolean = false;
-    Float.matrixMode = 0;
-    Float.animationType = BABYLON.AnimatedInputBlockTypes.None;
-    Float.isConstant = false;
-    Float.visibleInInspector = false;
-    
+
     // Connections
     position.output.connectTo(VectorSplitter.xyzIn);
     VectorSplitter.x.connectTo(VectorMerger.x);
@@ -167,22 +188,23 @@ BABYLON.SceneLoader.ImportMesh(null, "../assets/", "ship-PLACEHOLDER-v7 (canon a
     WorldPos.output.connectTo(WorldPosViewProjectionTransform.vector);
     ViewProjection.output.connectTo(WorldPosViewProjectionTransform.transform);
     WorldPosViewProjectionTransform.output.connectTo(VertexOutput.vector);
-    color.output.connectTo(ColorSplitter.rgba);
-    ColorSplitter.rgbOut.connectTo(FragmentOutput.rgb);
-    Float.output.connectTo(FragmentOutput.a);
-    
+    WorldPos.output.connectTo(Lights.worldPosition);
+    normal.output.connectTo(WorldNormal.vector);
+    World.output.connectTo(WorldNormal.transform);
+    WorldNormal.output.connectTo(Lights.worldNormal);
+    cameraPosition.output.connectTo(Lights.cameraPosition);
+    Lights.diffuseOutput.connectTo(Multiply2.left);
+    WaterColor.output.connectTo(ColorSplitter.rgba);
+    ColorSplitter.rgbOut.connectTo(Multiply2.right);
+    Multiply2.output.connectTo(FragmentOutput.rgb);
+    WaterOpacity.output.connectTo(FragmentOutput.a);
+
     // Output nodes
     nodeMaterial.addOutputNode(VertexOutput);
     nodeMaterial.addOutputNode(FragmentOutput);
     nodeMaterial.build();
-    
-    // #endregion
 
-    //let sphere = BABYLON.Mesh.MergeMeshes(meshes as Mesh[]);
-    let sphere = meshes[0];
-    let cannon = meshes[6];
-    sphere.rotationQuaternion = undefined;
-    // Move the sphere upward 1/2 its height
+    // #endregion
 
     var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(70, 70, 70), scene);
     camera.mode = BABYLON.Camera.ORTHOGRAPHIC_CAMERA;
@@ -196,73 +218,16 @@ BABYLON.SceneLoader.ImportMesh(null, "../assets/", "ship-PLACEHOLDER-v7 (canon a
     camera.orthoTop = camera.orthoRight * aspect;
 
     camera.setTarget(new BABYLON.Vector3(0, 0, 0));
-    var light = new BABYLON.HemisphericLight("HemiLight", new BABYLON.Vector3(0, 1, 0), scene);
-    // #region createGround
-    let colors: BABYLON.FloatArray;
-    let createGround = function (name, size, subdivisions, color, scene) {
-        let ground = new BABYLON.Mesh(name, scene);
-        let hsqrt3 = 0.86602540378;
-        let tileSize = size / subdivisions;
-        let halfTileSize = tileSize / 2;
-        let halfTileSizeHsqrt3 = halfTileSize * hsqrt3;
-        let flip = false;
-        let positions = [];
-        let normals = [];
-        colors = [];
-        let indices = [];
-        let tint;
-        let tileCount = 0;
-        for (let z = -subdivisions / 2; z < subdivisions / 2; z++) {
-            for (let x = -subdivisions; x < subdivisions; x++) {
-                let posX = x * halfTileSize;
-                let posZ = z * tileSize * hsqrt3;
-
-                if (!flip) {
-                    positions.push(posX + halfTileSize, 0, posZ - halfTileSizeHsqrt3);
-                    positions.push(posX, 0, posZ + halfTileSizeHsqrt3);
-                    positions.push(posX - halfTileSize, 0, posZ - halfTileSizeHsqrt3);
-                } else {
-                    positions.push(posX - halfTileSize, 0, posZ + halfTileSizeHsqrt3);
-                    positions.push(posX, 0, posZ - halfTileSizeHsqrt3);
-                    positions.push(posX + halfTileSize, 0, posZ + halfTileSizeHsqrt3);
-                }
-
-                for (let i = 0; i < 3; i++) normals.push(0, 1, 0);
-
-                for (let i = 0; i < 3; i++) indices.push(tileCount + i);
-                tileCount += 3;
-
-                tint = Math.random() * 0.1;
-                for (let i = 0; i < 3; i++) colors.push(color.r + tint, color.g + tint, color.b + tint, 1);
-
-                flip = !flip;
-            }
-            flip = !flip;
-        }
-        ground.setVerticesData(BABYLON.VertexBuffer.PositionKind, positions, true);
-        ground.setVerticesData(BABYLON.VertexBuffer.NormalKind, normals, true);
-        ground.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors, true);
-        ground.setIndices(indices);
-        return ground;
-    }
-    // #endregion
-
+    var spotLight = new BABYLON.DirectionalLight("DirectionalLight", new BABYLON.Vector3(0, -1, -3), scene);
+    spotLight.intensity = 3.5;
     // Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
-    let water = createGround("water", 600, 300, new BABYLON.Color3(0.3, 0.79, 1), scene);
+    let water = BABYLON.MeshBuilder.CreateTiledGround("water", { xmin: -100, xmax: 100, zmin: -100, zmax: 100, subdivisions: { w: 100, h: 100 } }, scene)
     // Affect a material
     water.material = nodeMaterial;
-
-    let ground = createGround("ground", 600, 110, new BABYLON.Color3(1, 0.98, 0.6), scene);
-
-    ground.position = new BABYLON.Vector3(0, -25, 0);
-
-
 
     // Render every frame
     engine.runRenderLoop(() => {
         scene.render();
-        camera.position = new BABYLON.Vector3(70 + sphere.position.x, 70, 70 + sphere.position.z);
-
     });
 
     window.addEventListener("resize", function () {
