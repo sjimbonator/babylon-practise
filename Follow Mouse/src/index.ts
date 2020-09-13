@@ -38,43 +38,24 @@ BABYLON.SceneLoader.ImportMesh(null, "../assets/", "ship-PLACEHOLDER-v7 (canon a
     
     // VectorSplitterBlock
     var VectorSplitter = new BABYLON.VectorSplitterBlock("VectorSplitter");
-    
+  
     // VectorMergerBlock
     var VectorMerger = new BABYLON.VectorMergerBlock("VectorMerger");
-    
+   
     // MultiplyBlock
     var Multiply = new BABYLON.MultiplyBlock("Multiply");
-    
-    // TrigonometryBlock
-    var Sin = new BABYLON.TrigonometryBlock("Sin");
-    Sin.operation = BABYLON.TrigonometryBlockOperations.Sin;
-    
-    // DivideBlock
-    var Divide = new BABYLON.DivideBlock("Divide");
-    
-    // SubtractBlock
-    var Subtract = new BABYLON.SubtractBlock("Subtract");
-    
-    // VectorSplitterBlock
-    var VectorSplitter1 = new BABYLON.VectorSplitterBlock("VectorSplitter");
-    
-    // WorleyNoise3DBlock
-    var WorleyNoiseD = new BABYLON.WorleyNoise3DBlock("WorleyNoise3D");
-    WorleyNoiseD.manhattanDistance = false;
-    
-    // InputBlock
-    var WorleyNoiseJitter = new BABYLON.InputBlock("WorleyNoiseJitter");
-    WorleyNoiseJitter.value = 1;
-    WorleyNoiseJitter.min = 0;
-    WorleyNoiseJitter.max = 0;
-    WorleyNoiseJitter.isBoolean = false;
-    WorleyNoiseJitter.matrixMode = 0;
-    WorleyNoiseJitter.animationType = BABYLON.AnimatedInputBlockTypes.None;
-    WorleyNoiseJitter.isConstant = false;
-    WorleyNoiseJitter.visibleInInspector = false;
-    
+  
+    // SimplexPerlin3DBlock
+    var SimplexPerlinD = new BABYLON.SimplexPerlin3DBlock("SimplexPerlin3D");
+   
     // MultiplyBlock
-    var Multiply1 = new BABYLON.MultiplyBlock("Multiply");
+    var spikeyness = new BABYLON.MultiplyBlock("spikeyness");
+   
+    // AddBlock
+    var Add = new BABYLON.AddBlock("Add");
+    
+    // VectorMergerBlock
+    var VectorMerger1 = new BABYLON.VectorMergerBlock("VectorMerger");
     
     // InputBlock
     var Time = new BABYLON.InputBlock("Time");
@@ -85,40 +66,21 @@ BABYLON.SceneLoader.ImportMesh(null, "../assets/", "ship-PLACEHOLDER-v7 (canon a
     Time.matrixMode = 0;
     Time.animationType = BABYLON.AnimatedInputBlockTypes.Time;
     Time.isConstant = false;
-    Time.visibleInInspector = false;
     
     // InputBlock
-    var WaveSpeed = new BABYLON.InputBlock("WaveSpeed");
-    WaveSpeed.value = 0.5;
-    WaveSpeed.min = 0;
-    WaveSpeed.max = 0;
-    WaveSpeed.isBoolean = false;
-    WaveSpeed.matrixMode = 0;
-    WaveSpeed.animationType = BABYLON.AnimatedInputBlockTypes.None;
-    WaveSpeed.isConstant = false;
-    WaveSpeed.visibleInInspector = false;
+    var noiseyness = new BABYLON.InputBlock("noiseyness");
+    noiseyness.value = new BABYLON.Vector3(2, 1, 2);
+    noiseyness.isConstant = false;
     
     // InputBlock
-    var waveLength = new BABYLON.InputBlock("waveLength");
-    waveLength.value = 0.2;
-    waveLength.min = 0;
-    waveLength.max = 0;
-    waveLength.isBoolean = false;
-    waveLength.matrixMode = 0;
-    waveLength.animationType = BABYLON.AnimatedInputBlockTypes.None;
-    waveLength.isConstant = false;
-    waveLength.visibleInInspector = false;
-    
-    // InputBlock
-    var WaveHeight = new BABYLON.InputBlock("WaveHeight");
-    WaveHeight.value = 0.7;
-    WaveHeight.min = 0;
-    WaveHeight.max = 0;
-    WaveHeight.isBoolean = false;
-    WaveHeight.matrixMode = 0;
-    WaveHeight.animationType = BABYLON.AnimatedInputBlockTypes.None;
-    WaveHeight.isConstant = false;
-    WaveHeight.visibleInInspector = false;
+    var flatness = new BABYLON.InputBlock("flatness");
+    flatness.value = 0.8;
+    flatness.min = 0;
+    flatness.max = 0;
+    flatness.isBoolean = false;
+    flatness.matrixMode = 0;
+    flatness.animationType = BABYLON.AnimatedInputBlockTypes.None;
+    flatness.isConstant = false;
     
     // TransformBlock
     var WorldPos = new BABYLON.TransformBlock("WorldPos");
@@ -130,40 +92,70 @@ BABYLON.SceneLoader.ImportMesh(null, "../assets/", "ship-PLACEHOLDER-v7 (canon a
     World.setAsSystemValue(BABYLON.NodeMaterialSystemValues.World);
     
     // TransformBlock
-    var WorldNormal = new BABYLON.TransformBlock("WorldNormal");
-    WorldNormal.complementZ = 0;
-    WorldNormal.complementW = 0;
+    var Worldposition = new BABYLON.TransformBlock("World position");
+    Worldposition.complementZ = 0;
+    Worldposition.complementW = 1;
+    
+    // LightBlock
+    var Lights = new BABYLON.LightBlock("Lights");
+    
+    // TransformBlock
+    var Worldnormal = new BABYLON.TransformBlock("World normal");
+    Worldnormal.complementZ = 0;
+    Worldnormal.complementW = 0;
     
     // InputBlock
     var normal = new BABYLON.InputBlock("normal");
     normal.setAsAttribute("normal");
     
-    // LightBlock
-    var Lights = new BABYLON.LightBlock("Lights");
-    
     // InputBlock
     var cameraPosition = new BABYLON.InputBlock("cameraPosition");
     cameraPosition.setAsSystemValue(BABYLON.NodeMaterialSystemValues.CameraPosition);
+    
+    // MultiplyBlock
+    var Multiply1 = new BABYLON.MultiplyBlock("Multiply");
     
     // InputBlock
     var Color = new BABYLON.InputBlock("Color3");
     Color.value = new BABYLON.Color3(0.3137254901960784, 0.8901960784313725, 0.7607843137254902);
     Color.isConstant = false;
-    Color.visibleInInspector = false;
+    
+    // VectorMergerBlock
+    var VectorMerger2 = new BABYLON.VectorMergerBlock("VectorMerger");
+   
+    // MultiplyBlock
+    var Multiply2 = new BABYLON.MultiplyBlock("Multiply");
+   
+    // DotBlock
+    var Dot = new BABYLON.DotBlock("Dot");
+    
+    // LightInformationBlock
+    var Lightinformation = new BABYLON.LightInformationBlock("Light information");
+    
+    // NormalizeBlock
+    var Normalize = new BABYLON.NormalizeBlock("Normalize");
+    
+    // CrossBlock
+    var Cross = new BABYLON.CrossBlock("Cross");
+    
+    // DerivativeBlock
+    var Derivative = new BABYLON.DerivativeBlock("Derivative");
+    
+    // AddBlock
+    var Add1 = new BABYLON.AddBlock("Add");
     
     // FragmentOutputBlock
     var FragmentOutput = new BABYLON.FragmentOutputBlock("FragmentOutput");
     
     // InputBlock
     var WaterOpacity = new BABYLON.InputBlock("WaterOpacity");
-    WaterOpacity.value = 0.5;
+    WaterOpacity.value = 0.8;
     WaterOpacity.min = 0;
     WaterOpacity.max = 0;
     WaterOpacity.isBoolean = false;
     WaterOpacity.matrixMode = 0;
     WaterOpacity.animationType = BABYLON.AnimatedInputBlockTypes.None;
     WaterOpacity.isConstant = false;
-    WaterOpacity.visibleInInspector = false;
     
     // TransformBlock
     var WorldPosViewProjectionTransform = new BABYLON.TransformBlock("WorldPos * ViewProjectionTransform");
@@ -180,18 +172,14 @@ BABYLON.SceneLoader.ImportMesh(null, "../assets/", "ship-PLACEHOLDER-v7 (canon a
     // Connections
     position.output.connectTo(VectorSplitter.xyzIn);
     VectorSplitter.x.connectTo(VectorMerger.x);
-    position.output.connectTo(WorleyNoiseD.seed);
-    WorleyNoiseJitter.output.connectTo(WorleyNoiseD.jitter);
-    WorleyNoiseD.output.connectTo(VectorSplitter1.xyIn);
-    VectorSplitter1.y.connectTo(Subtract.left);
-    Time.output.connectTo(Multiply1.left);
-    WaveSpeed.output.connectTo(Multiply1.right);
-    Multiply1.output.connectTo(Subtract.right);
-    Subtract.output.connectTo(Divide.left);
-    waveLength.output.connectTo(Divide.right);
-    Divide.output.connectTo(Sin.input);
-    Sin.output.connectTo(Multiply.left);
-    WaveHeight.output.connectTo(Multiply.right);
+    Time.output.connectTo(VectorMerger1.y);
+    VectorMerger1.xyz.connectTo(Add.left);
+    position.output.connectTo(Add.right);
+    Add.output.connectTo(spikeyness.left);
+    noiseyness.output.connectTo(spikeyness.right);
+    spikeyness.output.connectTo(SimplexPerlinD.seed);
+    SimplexPerlinD.output.connectTo(Multiply.left);
+    flatness.output.connectTo(Multiply.right);
     Multiply.output.connectTo(VectorMerger.y);
     VectorSplitter.z.connectTo(VectorMerger.z);
     VectorMerger.xyz.connectTo(WorldPos.vector);
@@ -199,19 +187,39 @@ BABYLON.SceneLoader.ImportMesh(null, "../assets/", "ship-PLACEHOLDER-v7 (canon a
     WorldPos.output.connectTo(WorldPosViewProjectionTransform.vector);
     ViewProjection.output.connectTo(WorldPosViewProjectionTransform.transform);
     WorldPosViewProjectionTransform.output.connectTo(VertexOutput.vector);
-    WorldPos.output.connectTo(Lights.worldPosition);
-    normal.output.connectTo(WorldNormal.vector);
-    World.output.connectTo(WorldNormal.transform);
-    WorldNormal.output.connectTo(Lights.worldNormal);
+    position.output.connectTo(Worldposition.vector);
+    World.output.connectTo(Worldposition.transform);
+    Worldposition.output.connectTo(Lights.worldPosition);
+    normal.output.connectTo(Worldnormal.vector);
+    World.output.connectTo(Worldnormal.transform);
+    Worldnormal.output.connectTo(Lights.worldNormal);
     cameraPosition.output.connectTo(Lights.cameraPosition);
-    Color.output.connectTo(Lights.diffuseColor);
-    Lights.diffuseOutput.connectTo(FragmentOutput.rgb);
+    Color.output.connectTo(Multiply1.left);
+    WorldPos.output.connectTo(Lightinformation.worldPosition);
+    Lightinformation.direction.connectTo(Dot.left);
+    WorldPos.output.connectTo(Derivative.input);
+    Derivative.dy.connectTo(Cross.left);
+    Derivative.dx.connectTo(Cross.right);
+    Cross.output.connectTo(Normalize.input);
+    Normalize.output.connectTo(Dot.right);
+    Dot.output.connectTo(Multiply2.left);
+    Dot.output.connectTo(Multiply2.right);
+    Multiply2.output.connectTo(VectorMerger2.x);
+    Multiply2.output.connectTo(VectorMerger2.y);
+    Multiply2.output.connectTo(VectorMerger2.z);
+    VectorMerger2.xyz.connectTo(Multiply1.right);
+    Multiply1.output.connectTo(Lights.diffuseColor);
+    Lights.diffuseOutput.connectTo(Add1.left);
+    Lights.specularOutput.connectTo(Add1.right);
+    Add1.output.connectTo(FragmentOutput.rgb);
     WaterOpacity.output.connectTo(FragmentOutput.a);
     
     // Output nodes
     nodeMaterial.addOutputNode(VertexOutput);
     nodeMaterial.addOutputNode(FragmentOutput);
     nodeMaterial.build();
+    
+    
     
     // #endregion
 
